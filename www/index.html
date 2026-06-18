@@ -173,6 +173,52 @@ main{padding:14px 14px 20px;max-width:720px;margin:0 auto}
 .settings-block{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:10px}
 .settings-block h3{font-family:var(--dp);letter-spacing:1px;font-size:19px;margin-bottom:4px}
 input[type=file]{display:none}
+/* ── theme editor ───────────────────────────────── */
+.te-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
+.te-row label{font-size:13px;color:var(--txt);flex:1}
+.te-row input[type=color]{width:44px;height:32px;border:1px solid var(--line);border-radius:8px;background:none;cursor:pointer;padding:2px}
+.theme-card.theme-build{border-style:dashed}
+
+/* ── GUIDED TOUR ────────────────────────────────── */
+#tourOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:300;
+  align-items:center;justify-content:center;padding:26px}
+#tourOverlay.show{display:flex}
+.tour-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px 22px;
+  max-width:360px;width:100%;text-align:center}
+.tour-emoji{font-size:52px;margin-bottom:10px}
+.tour-card h2{font-family:var(--dp);font-size:30px;letter-spacing:.5px;margin-bottom:8px}
+.tour-card p{color:var(--dim);font-size:15px;line-height:1.5;margin-bottom:18px;min-height:66px}
+.tour-dots{display:flex;gap:7px;justify-content:center;margin-bottom:18px}
+.tour-dots span{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.tour-dots span.on{background:var(--volt)}
+.tour-btns{display:flex;gap:10px}
+.tour-btns .btn{flex:1}
+
+/* ── delete exercise on a day ───────────────────── */
+.ex-del{cursor:pointer;font-size:16px;opacity:.55;padding:2px 4px}
+.ex-del:active{opacity:1;transform:scale(.9)}
+
+/* ── TEST CATEGORIES ────────────────────────────── */
+details.test-cat{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;padding:4px 12px 12px}
+details.test-cat summary{font-family:var(--dp);font-size:18px;letter-spacing:.5px;padding:10px 0;cursor:pointer;list-style:none}
+details.test-cat summary::-webkit-details-marker{display:none}
+details.test-cat summary::before{content:'▸ ';color:var(--volt)}
+details.test-cat[open] summary::before{content:'▾ '}
+
+/* ── BUILD: choose AI vs manual ─────────────────── */
+.build-choice{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.bc-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 12px;text-align:center;cursor:pointer;transition:transform .1s}
+.bc-card:active{transform:scale(.97)}
+.bc-card:first-child{border-color:var(--volt)}
+.bc-icon{font-size:30px;margin-bottom:6px}
+.bc-title{font-weight:700;font-size:15px;margin-bottom:3px}
+.bc-sub{font-size:11px;color:var(--dim);line-height:1.35}
+
+/* ── EMPTY PROGRAM PROMPT ────────────────────────── */
+.empty-prog{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:14px;text-align:center}
+.empty-prog p{color:var(--dim);font-size:14px;margin-bottom:16px;line-height:1.5}
+.empty-prog .btn{width:100%}
+
 /* ── CARDIO / ACTIVITY LOGGER ───────────────────── */
 .act-presets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
 .act-preset{background:var(--bg2);border:1px solid var(--line);border-radius:20px;padding:9px 14px;
@@ -672,6 +718,21 @@ nav button.active{color:var(--red)}
 </head>
 <body>
 
+
+  <!-- ═══════ GUIDED TOUR ═══════ -->
+  <div id="tourOverlay">
+    <div class="tour-card">
+      <div class="tour-emoji" id="tourEmoji"></div>
+      <h2 id="tourTitle"></h2>
+      <p id="tourBody"></p>
+      <div class="tour-dots" id="tourDots"></div>
+      <div class="tour-btns">
+        <button class="btn ghost" id="tourSkip">Skip</button>
+        <button class="btn volt" id="tourNext">Next</button>
+      </div>
+    </div>
+  </div>
+
 <!-- ═══════════════════════════════════════════════════ THEME PICKER -->
 <div id="themePicker">
   <div class="tp-logo">DYLAN'S<span>WORKOUT</span></div>
@@ -766,12 +827,25 @@ nav button.active{color:var(--red)}
       <div id="progTrends" style="display:none"></div>
     </section>
     <section class="view" id="view-build">
-      <div class="sec-title">Program Builder</div>
-      <p class="hint">Edit the program for this profile. Changes save automatically. Export to Excel to share it.</p>
+      <div class="sec-title">Build a Program</div>
+      <div class="build-choice">
+        <div class="bc-card" onclick="switchView('ai')">
+          <div class="bc-icon">🤖</div>
+          <div class="bc-title">Let AI build it</div>
+          <div class="bc-sub">Describe your goals — Claude makes the full program</div>
+        </div>
+        <div class="bc-card" onclick="document.getElementById('buildOwnAnchor').scrollIntoView({behavior:'smooth'})">
+          <div class="bc-icon">🛠</div>
+          <div class="bc-title">Build your own</div>
+          <div class="bc-sub">Set up each day and exercise yourself, below</div>
+        </div>
+      </div>
+      <div id="buildOwnAnchor" class="sec-title" style="font-size:16px;margin-top:8px">Your Program</div>
+      <p class="hint">Edit each day for this profile. Changes save automatically. Export to Excel to share it.</p>
       <div class="build-days" id="buildDays"></div>
       <div id="buildDayEditor"></div>
       <button class="btn ghost" id="buildExportBtn" style="margin-top:14px">Export Program to Excel</button>
-      <button class="btn ghost" id="buildResetBtn" style="margin-top:6px">Reset to default vert program</button>
+      <button class="btn ghost" id="buildResetBtn" style="margin-top:6px">Clear program (start blank)</button>
     </section>
     <section class="view" id="view-library">
       <div class="sec-title">Exercise Library</div>
@@ -874,6 +948,11 @@ nav button.active{color:var(--red)}
           <div class="menu-item" onclick="showThemePicker()">
             <span class="mi-icon">🎨</span>
             <div class="mi-text"><div class="mi-title">Theme</div><div class="mi-sub">Change the app colors</div></div>
+            <span class="mi-arrow">›</span>
+          </div>
+          <div class="menu-item" onclick="startTour()">
+            <span class="mi-icon">🧭</span>
+            <div class="mi-text"><div class="mi-title">App Tour</div><div class="mi-sub">Replay the welcome walkthrough</div></div>
             <span class="mi-arrow">›</span>
           </div>
         </div>
@@ -1086,6 +1165,18 @@ nav button.active{color:var(--red)}
     </div>
   </div>
 
+
+  <!-- ═══════ CUSTOM THEME EDITOR ═══════ -->
+  <div class="modal-bg" id="themeEditModal">
+    <div class="modal">
+      <button class="close" onclick="closeModal('themeEditModal')">✕</button>
+      <h2>Build Your Theme</h2>
+      <p class="hint" style="margin-bottom:14px">Tap each swatch to choose a color. The app updates live as you go.</p>
+      <div id="themeEditFields"></div>
+      <button class="btn volt" style="margin-top:14px" onclick="saveCustomTheme()">Save &amp; use this theme</button>
+    </div>
+  </div>
+
   <!-- ═══════ COACH CHAT MODAL ═══════ -->
   <div class="modal-bg" id="coachModal">
     <div class="modal">
@@ -1176,20 +1267,42 @@ nav button.active{color:var(--red)}
 const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const COLORS = ['#FF2D55','#C8FF00','#4A9EFF','#FF9F0A','#2BD576','#BF5AF2','#FF6B6B','#00D2FF'];
 
-const JUMP_METRICS = [
-  {key:'standingVert', label:'Standing Vert (in)',   better:'high'},
-  {key:'approachVert', label:'Approach Vert (in)',   better:'high'},
-  {key:'broadJump',    label:'Broad Jump (in)',       better:'high'},
-  {key:'slBroadL',     label:'SL Broad Left (in)',   better:'high'},
-  {key:'slBroadR',     label:'SL Broad Right (in)',  better:'high'},
-  {key:'shuttle',      label:'5-10-5 Shuttle (sec)', better:'low'},
-  {key:'rsi',          label:'RSI Score',            better:'high'},
-  {key:'squat1rm',     label:'Squat 1RM (lbs)',      better:'high'},
-  {key:'hipThrust',    label:'Hip Thrust 1RM (lbs)', better:'high'},
-  {key:'bodyweight',   label:'Bodyweight (lbs)',     better:''},
-  {key:'rhr',          label:'Resting HR (bpm)',     better:'low'},
-  {key:'readiness',    label:'Readiness (1–10)',     better:'high'},
+const METRIC_CATS = ['Strength','Endurance','Body','Skill / Sport','Wellness'];
+const METRICS = [
+  // Strength
+  {key:'squat1rm',     label:'Squat 1RM (lbs)',      cat:'Strength', better:'high'},
+  {key:'bench1rm',     label:'Bench 1RM (lbs)',      cat:'Strength', better:'high'},
+  {key:'deadlift1rm',  label:'Deadlift 1RM (lbs)',   cat:'Strength', better:'high'},
+  {key:'hipThrust',    label:'Hip Thrust 1RM (lbs)', cat:'Strength', better:'high'},
+  {key:'pullups',      label:'Max Pull-ups',         cat:'Strength', better:'high'},
+  {key:'pushups',      label:'Max Push-ups',         cat:'Strength', better:'high'},
+  // Endurance
+  {key:'mileTime',     label:'1-Mile Time (min)',    cat:'Endurance', better:'low'},
+  {key:'runDist',      label:'Longest Run (mi)',     cat:'Endurance', better:'high'},
+  {key:'plankTime',    label:'Plank Hold (sec)',     cat:'Endurance', better:'high'},
+  {key:'rhr',          label:'Resting HR (bpm)',     cat:'Endurance', better:'low'},
+  // Body
+  {key:'bodyweight',   label:'Bodyweight (lbs)',     cat:'Body', better:''},
+  {key:'bodyfat',      label:'Body Fat (%)',         cat:'Body', better:'low'},
+  {key:'waist',        label:'Waist (in)',           cat:'Body', better:'low'},
+  // Skill / Sport
+  {key:'standingVert', label:'Standing Vert (in)',   cat:'Skill / Sport', better:'high'},
+  {key:'approachVert', label:'Approach Vert (in)',   cat:'Skill / Sport', better:'high'},
+  {key:'broadJump',    label:'Broad Jump (in)',       cat:'Skill / Sport', better:'high'},
+  {key:'slBroadL',     label:'SL Broad Left (in)',   cat:'Skill / Sport', better:'high'},
+  {key:'slBroadR',     label:'SL Broad Right (in)',  cat:'Skill / Sport', better:'high'},
+  {key:'shuttle',      label:'5-10-5 Shuttle (sec)', cat:'Skill / Sport', better:'low'},
+  {key:'rsi',          label:'RSI Score',            cat:'Skill / Sport', better:'high'},
+  // Wellness
+  {key:'readiness',    label:'Readiness (1–10)',     cat:'Wellness', better:'high'},
+  {key:'sleep',        label:'Sleep (hrs)',          cat:'Wellness', better:'high'},
 ];
+// back-compat alias (charts, export still reference JUMP_METRICS)
+const JUMP_METRICS = METRICS;
+// user-defined custom test types
+function getCustomMetrics(pid){ try { return JSON.parse(localStorage.getItem(`vj_metrics_${pid}`))||[]; } catch { return []; } }
+function setCustomMetrics(pid,m){ localStorage.setItem(`vj_metrics_${pid}`, JSON.stringify(m)); }
+function allMetrics(){ return [...METRICS, ...getCustomMetrics(activeProfile.id)]; }
 
 const DEFAULT_PROGRAM = {
   name: 'Starter Program',
@@ -1508,6 +1621,56 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('keydown', e => { if (e.key === 'Escape') closeTopModal(); });
 
 
+
+/* ═══════════════════════════════════════════════════════
+   FIRST-LOGIN GUIDED TOUR
+════════════════════════════════════════════════════════ */
+const TOUR_STEPS = [
+  {emoji:'👋', title:'Welcome', body:"This is your training app. Here's a 20-second tour of how it works. You can skip anytime."},
+  {emoji:'🛠', title:'Build a Program', body:"Start in the Build tab. Make your own program day by day, or let the AI coach build one from your goals."},
+  {emoji:'⚡', title:'Today', body:"Each day, the Today tab shows that day's workout. Log your sets, mark a true max, add notes, or log cardio."},
+  {emoji:'📅', title:'Calendar', body:"See your whole plan and history. Tap any day to log or edit it — color dots show heavy, taper, deload, and game days."},
+  {emoji:'📈', title:'Tests', body:"Track anything — strength, endurance, body measurements, sport skills, or your own custom tests. Watch them trend in Progress."},
+  {emoji:'⚙️', title:'More & Tools', body:"In More you'll find the AI Coach, 1-Rep-Max calculator, exercise library, themes, and your account for cloud backup."},
+  {emoji:'☁️', title:'Sign in to sync', body:"Create an account (More → Sign in) so your data is backed up and follows you across devices. Totally optional."},
+];
+let _tourIdx = 0;
+function startTour() {
+  _tourIdx = 0;
+  renderTourStep();
+  $('#tourOverlay').classList.add('show');
+}
+function renderTourStep() {
+  const s = TOUR_STEPS[_tourIdx];
+  $('#tourEmoji').textContent = s.emoji;
+  $('#tourTitle').textContent = s.title;
+  $('#tourBody').textContent = s.body;
+  $('#tourDots').innerHTML = TOUR_STEPS.map((_,i)=>`<span class="${i===_tourIdx?'on':''}"></span>`).join('');
+  $('#tourNext').textContent = _tourIdx === TOUR_STEPS.length-1 ? 'Get started' : 'Next';
+}
+function endTour() {
+  $('#tourOverlay').classList.remove('show');
+  localStorage.setItem('dwa_tour_done','1');
+}
+$('#tourNext') && $('#tourNext').addEventListener('click', ()=>{
+  if (_tourIdx < TOUR_STEPS.length-1) { _tourIdx++; renderTourStep(); }
+  else endTour();
+});
+$('#tourSkip') && $('#tourSkip').addEventListener('click', endTour);
+// swipe support
+let _tourX = null;
+$('#tourOverlay') && $('#tourOverlay').addEventListener('touchstart', e=>{ _tourX = e.touches[0].clientX; });
+$('#tourOverlay') && $('#tourOverlay').addEventListener('touchend', e=>{
+  if (_tourX==null) return;
+  const dx = e.changedTouches[0].clientX - _tourX;
+  if (dx < -40 && _tourIdx < TOUR_STEPS.length-1) { _tourIdx++; renderTourStep(); }
+  else if (dx > 40 && _tourIdx > 0) { _tourIdx--; renderTourStep(); }
+  _tourX = null;
+});
+function maybeShowTour() {
+  if (!localStorage.getItem('dwa_tour_done')) setTimeout(startTour, 400);
+}
+
 /* ═══════════════════════════════════════════════════════
    THEMES  (user picks on first open; changeable in More)
 ════════════════════════════════════════════════════════ */
@@ -1519,6 +1682,7 @@ const THEMES = {
 };
 
 function applyTheme(key) {
+  if (key === 'custom' && !THEMES.custom) { const c = getCustomTheme(); if (c) THEMES.custom = c; }
   const t = THEMES[key] || THEMES.volt;
   const r = document.documentElement.style;
   r.setProperty('--bg', t.bg); r.setProperty('--bg2', t.bg2);
@@ -1531,9 +1695,57 @@ function applyTheme(key) {
 }
 function getTheme(){ return localStorage.getItem('dwa_theme') || ''; }
 
+/* ── BUILD-YOUR-OWN THEME (full color control) ── */
+function getCustomTheme(){ try { return JSON.parse(localStorage.getItem('dwa_customtheme'))||null; } catch { return null; } }
+function setCustomTheme(t){ localStorage.setItem('dwa_customtheme', JSON.stringify(t)); }
+
+// the editable variables and friendly labels
+const THEME_VARS = [
+  {k:'primary',   label:'Primary accent (buttons, highlights)'},
+  {k:'secondary', label:'Secondary accent'},
+  {k:'bg',        label:'Background'},
+  {k:'bg2',       label:'Panel background'},
+  {k:'card',      label:'Card'},
+  {k:'card2',     label:'Card (raised)'},
+  {k:'line',      label:'Borders / lines'},
+  {k:'txt',       label:'Main text'},
+  {k:'dim',       label:'Dim / secondary text'},
+  {k:'onPrimary', label:'Text on primary buttons'},
+];
+let _themeDraft = null;
+function openThemeEditor() {
+  // seed from existing custom theme, else from the current/Volt theme
+  const base = getCustomTheme() || {...THEMES[getTheme()] || THEMES.volt};
+  _themeDraft = {label:'Custom', primary:base.primary, secondary:base.secondary, bg:base.bg, bg2:base.bg2,
+    card:base.card, card2:base.card2, line:base.line, txt:base.txt, dim:base.dim, onPrimary:base.onPrimary||'#0C0C10'};
+  $('#themeEditFields').innerHTML = THEME_VARS.map(v =>
+    `<div class="te-row"><label>${v.label}</label>
+      <input type="color" value="${_themeDraft[v.k]}" oninput="updateThemeDraft('${v.k}', this.value)"></div>`
+  ).join('');
+  openModal('themeEditModal');
+}
+function updateThemeDraft(k, val) {
+  _themeDraft[k] = val;
+  // live preview
+  const r = document.documentElement.style;
+  const map = {primary:'--volt', secondary:'--red', bg:'--bg', bg2:'--bg2', card:'--card', card2:'--card2', line:'--line', txt:'--txt', dim:'--dim', onPrimary:'--on-primary'};
+  r.setProperty(map[k], val);
+}
+function saveCustomTheme() {
+  setCustomTheme(_themeDraft);
+  THEMES.custom = _themeDraft;
+  applyTheme('custom');
+  closeModal('themeEditModal');
+  $('#themePicker').style.display = 'none';
+  showProfileScreen();
+  toast('Custom theme saved ✓');
+}
+
+
 function showThemePicker() {
   $('#themePicker').style.display = 'flex';
-  $('#themeOptions').innerHTML = Object.keys(THEMES).map(k => {
+  const custom = getCustomTheme();
+  let cards = Object.keys(THEMES).map(k => {
     const t = THEMES[k];
     return `<div class="theme-card" onclick="pickTheme('${k}')">
       <div class="theme-swatch" style="background:${t.bg}">
@@ -1544,11 +1756,29 @@ function showThemePicker() {
       <div class="theme-name">${t.label}</div>
     </div>`;
   }).join('');
+  // existing saved custom theme (if any) shows as a pickable card
+  if (custom) {
+    cards += `<div class="theme-card" onclick="pickTheme('custom')">
+      <div class="theme-swatch" style="background:${custom.bg}">
+        <span style="background:${custom.primary}"></span>
+        <span style="background:${custom.secondary}"></span>
+        <span style="background:${custom.card2}"></span>
+      </div>
+      <div class="theme-name">Custom</div>
+    </div>`;
+  }
+  // build-your-own card
+  cards += `<div class="theme-card theme-build" onclick="openThemeEditor()">
+    <div class="theme-swatch" style="background:var(--bg2);font-size:26px;color:var(--volt);display:flex;align-items:center;justify-content:center">🎨</div>
+    <div class="theme-name">Build Your Own</div>
+  </div>`;
+  $('#themeOptions').innerHTML = cards;
 }
 function pickTheme(key) {
   applyTheme(key);
   $('#themePicker').style.display = 'none';
   showProfileScreen();
+  maybeShowTour();
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -1568,7 +1798,7 @@ function renderProfileGrid() {
     const initials = p.name.slice(0,2).toUpperCase();
     card.innerHTML=`<div class="avatar" style="background:${p.color}">${initials}</div>
       <div class="p-name">${esc(p.name)}</div>
-      <div class="p-prog">${esc(Store.getProgram(p.id)?.name || 'Default Program')}</div>`;
+      <div class="p-prog">${esc((Store.getProgram(p.id)&&Store.getProgram(p.id).name) || 'No program yet')}</div>`;
     card.onclick = () => selectProfile(p);
     grid.appendChild(card);
   });
@@ -1579,9 +1809,19 @@ function renderProfileGrid() {
   grid.appendChild(add);
 }
 
+function emptyProgram() {
+  const days = {};
+  ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'].forEach(d => days[d] = {type:'rest', title:'Rest', sections:[]});
+  return {name:'', days, blank:true};
+}
+function hasRealProgram() {
+  if (!activeProgram || activeProgram.blank) return false;
+  // a "real" program has at least one day with exercises OR a non-rest typed day with a title
+  return Object.values(activeProgram.days||{}).some(d => (d.sections||[]).some(s => (s.items||[]).length) || (d.type && d.type!=='rest'));
+}
 function selectProfile(profile) {
   activeProfile = profile;
-  activeProgram = Store.getProgram(profile.id) || DEFAULT_PROGRAM;
+  activeProgram = Store.getProgram(profile.id) || emptyProgram();
   $('#appShell').style.display='block';
   $('#profileScreen').style.display='none';
   $('#badgeAv').style.background = profile.color;
@@ -1880,6 +2120,28 @@ function renderToday() {
   __sessionLabel = day.title;
   __todayCtx = {source:day.source, date:tk, templateKey:day.templateKey, weekday:dayName};
 
+  // No program built yet → guide the user to Build (but still allow ad-hoc activity logging)
+  if (!hasRealProgram() && !planActive()) {
+    const hero0 = el('div','hero');
+    hero0.innerHTML = `<div class="eyebrow">${esc(dayName)} · ${esc(dateStr)}</div><h1>Welcome 👋</h1>
+      <div class="sub">You don't have a program yet — let's fix that.</div>`;
+    v.appendChild(hero0);
+    const card = el('div','empty-prog');
+    card.innerHTML = `<p>Build your own program, or let the AI coach create one tailored to your goals.</p>`;
+    const b1 = el('button','btn volt','🛠  Build a program');
+    b1.onclick = ()=>switchView('build');
+    const b2 = el('button','btn ghost','🤖  Have AI build one');
+    b2.style.marginTop='8px'; b2.onclick = ()=>switchView('ai');
+    card.appendChild(b1); card.appendChild(b2);
+    v.appendChild(card);
+    // still let them log a one-off activity today
+    renderActivitiesInto(v, tk);
+    const actBtn0 = el('button','btn ghost','🏃  Log cardio / activity');
+    actBtn0.style.marginTop='8px'; actBtn0.onclick = ()=>openActivity(tk);
+    v.appendChild(actBtn0);
+    return;
+  }
+
   // Plan-active banner
   const plan = getDatedPlan(activeProfile.id);
   if (day.source==='plan') {
@@ -1983,19 +2245,46 @@ function renderTestForm() {
   const f=$('#testForm'); f.innerHTML='';
   const df=el('div','field full'); df.innerHTML=`<label>Date</label><input type="date" id="t_date" value="${todayKey()}">`;
   f.appendChild(df);
-  JUMP_METRICS.forEach(m=>{
-    const fld=el('div','field');
-    fld.innerHTML=`<label>${esc(m.label)}</label><input type="number" inputmode="decimal" id="t_${m.key}" placeholder="—">`;
-    f.appendChild(fld);
+  const mets = allMetrics();
+  const cats = [...METRIC_CATS, ...[...new Set(getCustomMetrics(activeProfile.id).map(m=>m.cat||'Custom'))]];
+  [...new Set(cats)].forEach(cat=>{
+    const inCat = mets.filter(m=>(m.cat||'Custom')===cat);
+    if(!inCat.length) return;
+    const det=document.createElement('details'); det.className='test-cat';
+    if(cat==='Strength') det.open=true; // open the first by default
+    det.innerHTML=`<summary>${esc(cat)}</summary>`;
+    const grid=el('div','form-grid');
+    inCat.forEach(m=>{
+      const fld=el('div','field');
+      fld.innerHTML=`<label>${esc(m.label)}</label><input type="number" inputmode="decimal" id="t_${m.key}" placeholder="—">`;
+      grid.appendChild(fld);
+    });
+    det.appendChild(grid);
+    f.appendChild(det);
   });
+  // add custom test type
+  const addC=el('button','btn ghost','＋ Add a custom test type');
+  addC.style.cssText='margin:6px 0 12px'; addC.onclick=addCustomMetric;
+  f.appendChild(addC);
   const nf=el('div','field full'); nf.innerHTML=`<label>Notes</label><input type="text" id="t_notes" placeholder="conditions, how you felt…">`;
   f.appendChild(nf);
+}
+function addCustomMetric(){
+  const name=prompt('Name your test (include the unit), e.g. "40-yd Dash (sec)" or "Max Bench (lbs)":');
+  if(!name||!name.trim()) return;
+  const dir=prompt('Is a HIGHER or LOWER number better? Type "high", "low", or leave blank for neither:','high');
+  const better=(dir==='low')?'low':(dir==='high')?'high':'';
+  const customs=getCustomMetrics(activeProfile.id);
+  customs.push({key:'c_'+Date.now(), label:name.trim(), cat:'Custom', better, custom:true});
+  setCustomMetrics(activeProfile.id, customs);
+  renderTestForm();
+  toast('Custom test added');
 }
 
 $('#saveTestBtn').onclick = () => {
   const t={date:$('#t_date').value||todayKey(), notes:$('#t_notes').value||''};
   let any=false;
-  JUMP_METRICS.forEach(m=>{ const v=$('#t_'+m.key).value; if(v!==''){t[m.key]=parseFloat(v);any=true;} });
+  allMetrics().forEach(m=>{ const el=$('#t_'+m.key); if(el && el.value!==''){t[m.key]=parseFloat(el.value);any=true;} });
   if(!any){toast('Enter at least one value');return;}
   const tests=Store.getTests(activeProfile.id); tests.push(t); Store.setTests(activeProfile.id,tests);
   renderTestForm(); renderTestHistory();
@@ -2016,7 +2305,7 @@ function renderTestHistory() {
   sorted.forEach(t=>{
     const row=el('div','log-row');
     let pills='';
-    JUMP_METRICS.forEach(m=>{
+    allMetrics().forEach(m=>{
       if(typeof t[m.key]==='number'){
         const best=bestFor(m.key,m.better,allTests);
         const isPR=m.better&&t[m.key]===best;
@@ -2180,7 +2469,8 @@ $('#authSyncNowBtn') && $('#authSyncNowBtn').addEventListener('click', ()=>{ pus
 /* ═══════════════════════════════════════════════════════
    INIT
 ════════════════════════════════════════════════════════ */
-if (getTheme()) { applyTheme(getTheme()); showProfileScreen(); }
+{ const _ct = getCustomTheme(); if (_ct) THEMES.custom = _ct; }
+if (getTheme()) { applyTheme(getTheme()); showProfileScreen(); maybeShowTour(); }
 else { showThemePicker(); }
 // bring up cloud sync (no-op if not configured)
 initFirebase();
@@ -2622,7 +2912,10 @@ function buildCalExCard(item, dateStr, dayName, savedSets) {
   const cwwHtml = cww ? `<div class="ex-pct">${cww.weight!=null?`${cww.pct}% → <span class="calc">${cww.weight} lbs</span>`:`${cww.pct}%`}</div>` : '';
   head.innerHTML = `<div><div class="ex-name">${esc(item.name)}${item.custom?' <span style="font-size:10px;color:var(--blue)">CUSTOM</span>':''}</div>
     <div class="ex-note">${esc(item.note||'')}</div></div>
-    <div style="text-align:right"><div class="ex-target">${item.sets}×${esc(item.reps)}</div>${cwwHtml}</div>`;
+    <div style="text-align:right;display:flex;align-items:flex-start;gap:8px">
+      <div><div class="ex-target">${item.sets}×${esc(item.reps)}</div>${cwwHtml}</div>
+      <span class="ex-del" title="Delete this exercise from this day">🗑</span></div>`;
+  head.querySelector('.ex-del').onclick = () => deleteExerciseOnDate(dateStr, item.name);
   card.appendChild(head);
   const setsWrap = el('div','sets');
   for (let s=0; s<(item.sets||1); s++) {
@@ -3061,9 +3354,13 @@ function selectStrengthEx(ex){ progStrengthEx = ex; renderProgStrength(); }
 function renderProgJumps() {
   const wrap = $('#progJumps');
   const tests = Store.getTests(activeProfile.id);
-  if (!tests.length) { wrap.innerHTML = '<div class="chart-empty">Log jump tests to see trends here.</div>'; return; }
-  const chips = JUMP_METRICS.map(m => `<div class="metric-chip ${m.key===progJumpMetric?'active':''}" onclick="selectJumpMetric('${m.key}')">${esc(m.label.split(' (')[0])}</div>`).join('');
-  const metric = JUMP_METRICS.find(m => m.key === progJumpMetric);
+  if (!tests.length) { wrap.innerHTML = '<div class="chart-empty">Log tests to see trends here.</div>'; return; }
+  // only show metrics that actually have data logged
+  const metricsWithData = allMetrics().filter(m => tests.some(t => typeof t[m.key] === 'number'));
+  if (!metricsWithData.length) { wrap.innerHTML = '<div class="chart-empty">Log a test value to see trends here.</div>'; return; }
+  if (!metricsWithData.find(m => m.key === progJumpMetric)) progJumpMetric = metricsWithData[0].key;
+  const chips = metricsWithData.map(m => `<div class="metric-chip ${m.key===progJumpMetric?'active':''}" onclick="selectJumpMetric('${m.key}')">${esc(m.label.split(' (')[0])}</div>`).join('');
+  const metric = allMetrics().find(m => m.key === progJumpMetric);
   const data = tests.filter(t => typeof t[progJumpMetric] === 'number').sort((a,b)=>a.date<b.date?-1:1);
   const points = data.map(t => ({label: shortDate(t.date), value: t[progJumpMetric]}));
   let statHtml = '';
@@ -3351,8 +3648,8 @@ let buildSelectedDay = 'Monday';
 const ALL_DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 
 function renderBuildView() {
-  // ensure program has a days object
-  if (!activeProgram.days) activeProgram = JSON.parse(JSON.stringify(DEFAULT_PROGRAM));
+  // ensure program has a days object — but stay BLANK (no default program injected)
+  if (!activeProgram || !activeProgram.days) activeProgram = emptyProgram();
   renderBuildDays();
   renderBuildDayEditor();
 }
@@ -3598,11 +3895,11 @@ async function exportDatedPlan() {
 
 $('#buildExportBtn') && $('#buildExportBtn').addEventListener('click', exportProgram);
 $('#buildResetBtn') && $('#buildResetBtn').addEventListener('click', () => {
-  if (!confirm('Reset this profile\'s program back to the default vert program?')) return;
-  activeProgram = JSON.parse(JSON.stringify(DEFAULT_PROGRAM));
+  if (!confirm('Clear this profile\'s program? Every day goes back to blank. Your logged history is kept.')) return;
+  activeProgram = emptyProgram();
   Store.setProgram(activeProfile.id, activeProgram);
   renderBuildView();
-  toast('Reset to default');
+  toast('Program cleared');
 });
 
 /* ═══════════════════════════════════════════════════════
@@ -4836,6 +5133,24 @@ function renderActivitiesInto(container, dateStr) {
     container.appendChild(card);
   });
 }
+
+// Delete a logged exercise from a specific date (its sets, notes, and any custom def)
+function deleteExerciseOnDate(dateStr, exName) {
+  if (!confirm(`Delete "${exName}" from ${dateStr}? This removes its logged sets for that day.`)) return;
+  const sessions = Store.getSessions(activeProfile.id);
+  const s = sessions[dateStr];
+  if (s) {
+    if (s.exercises) delete s.exercises[exName];
+    if (s._notes) delete s._notes[exName];
+    if (s._customDefs) s._customDefs = s._customDefs.filter(c => c.name !== exName);
+    if (s._subs) delete s._subs[exName];
+    Store.setSessions(activeProfile.id, sessions);
+  }
+  toast('Removed');
+  selectCalDate(dateStr);
+  renderCalendar();
+}
+
 function deleteActivity(dateStr, idx) {
   const sessions = Store.getSessions(activeProfile.id);
   if (sessions[dateStr] && sessions[dateStr]._activities) {
