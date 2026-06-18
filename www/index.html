@@ -195,9 +195,9 @@ input[type=file]{display:none}
 .today-activity .ta-detail{font-size:13px;color:var(--dim);margin-top:3px}
 
 /* ── set "max" checkbox ─────────────────────────── */
-.setbox .maxchk{display:flex;align-items:center;gap:3px;margin-left:6px;cursor:pointer;user-select:none}
-.setbox .maxchk input{width:16px;height:16px;accent-color:var(--red);margin:0}
-.setbox .maxchk span{font-size:10px;color:var(--dim);font-weight:700;text-transform:uppercase}
+.setbox .maxchk{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:7px;cursor:pointer;user-select:none}
+.setbox .maxchk input{width:15px;height:15px;accent-color:var(--red);margin:0;flex-shrink:0}
+.setbox .maxchk span{font-size:10px;color:var(--dim);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
 .setbox .maxchk input:checked + span{color:var(--red)}
 
 /* ── HOME SIGN-IN BAR (profile screen) ──────────── */
@@ -1814,10 +1814,10 @@ function buildExCard(item, dayName, savedSets, allowSwap) {
       <input type="number" inputmode="decimal" placeholder="wt" value="${esc(prev.w||'')}" data-k="w">
       <span class="x">×</span>
       <input type="number" inputmode="numeric" placeholder="reps" value="${esc(prev.r||'')}" data-k="r">
-      <label class="maxchk" title="Check if this set was an all-out max (taken to failure). Used to calculate your 1RM.">
-        <input type="checkbox" data-k="max" ${prev.max?'checked':''}><span>max</span>
-      </label>
-    </div>`;
+    </div>
+    <label class="maxchk" title="Check if this set was an all-out max (taken to failure). Used to calculate your 1RM.">
+      <input type="checkbox" data-k="max" ${prev.max?'checked':''}><span>To failure</span>
+    </label>`;
     box.querySelectorAll('input').forEach(inp=>inp.addEventListener('change',()=>saveSet(dayName,item.name,s,box)));
     setsWrap.appendChild(box);
   }
