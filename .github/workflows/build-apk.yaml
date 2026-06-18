@@ -46,13 +46,13 @@ jobs:
           ./gradlew assembleDebug --no-daemon
 
       - name: Rename APK
-        run: cp android/app/build/outputs/apk/debug/app-debug.apk vert-jump.apk
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk dylans-training-app.apk
 
       - name: Upload APK as a workflow artifact
         uses: actions/upload-artifact@v4
         with:
-          name: vert-jump-apk
-          path: vert-jump.apk
+          name: dylans-training-app-apk
+          path: dylans-training-app.apk
 
       - name: Publish APK to a Release (easy to download on your phone)
         if: github.ref == 'refs/heads/main'
@@ -63,9 +63,9 @@ jobs:
           TAG="build-${{ github.run_number }}-${GITHUB_SHA::7}"
           # If a release/tag with this name somehow exists, delete it first
           gh release delete "$TAG" --yes --cleanup-tag 2>/dev/null || true
-          gh release create "$TAG" vert-jump.apk \
-            --title "Dylan's Workout App — build ${{ github.run_number }}" \
-            --notes "Auto-built debug APK. Download vert-jump.apk below and open it on your Android phone to install."
+          gh release create "$TAG" dylans-training-app.apk \
+            --title "Dylan's Training App — build ${{ github.run_number }}" \
+            --notes "Auto-built debug APK. Download dylans-training-app.apk below and open it on your Android phone to install."
 
       - name: Update 'latest' release (always points to newest build)
         if: github.ref == 'refs/heads/main'
@@ -74,6 +74,6 @@ jobs:
         run: |
           # A stable 'latest' release you can always bookmark for the newest APK
           gh release delete latest --yes --cleanup-tag 2>/dev/null || true
-          gh release create latest vert-jump.apk \
-            --title "Dylan's Workout App — latest" \
-            --notes "Always the newest build. Download vert-jump.apk below."
+          gh release create latest dylans-training-app.apk \
+            --title "Dylan's Training App — latest" \
+            --notes "Always the newest build. Download dylans-training-app.apk below."
