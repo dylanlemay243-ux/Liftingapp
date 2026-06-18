@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<meta name="apple-mobile-web-app-title" content="Vert OS"/>
+<meta name="apple-mobile-web-app-title" content="Dylan's Training App"/>
 <link rel="apple-touch-icon" href="icon-192.png"/>
 <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png"/>
 <link rel="manifest" href="manifest.webmanifest"/>
@@ -16,7 +16,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<title>Vert OS</title>
+<title>Dylan's Training App</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -204,6 +204,26 @@ details.test-cat summary{font-family:var(--dp);font-size:18px;letter-spacing:.5p
 details.test-cat summary::-webkit-details-marker{display:none}
 details.test-cat summary::before{content:'▸ ';color:var(--volt)}
 details.test-cat[open] summary::before{content:'▾ '}
+
+/* ── CLEAN TESTS UI ─────────────────────────────── */
+.test-shell{display:grid;gap:12px}
+.test-tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 0 4px;-webkit-overflow-scrolling:touch}
+.test-tab{white-space:nowrap;border:1px solid var(--line);background:var(--card);color:var(--txt);border-radius:999px;padding:9px 12px;font-family:var(--bd);font-size:12px;font-weight:900;cursor:pointer}
+.test-tab.active{background:var(--volt);color:#0C0C10;border-color:var(--volt)}
+.test-panel{background:linear-gradient(145deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:22px;padding:14px;box-shadow:var(--shadow-card)}
+.test-panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+.test-panel-head h3{font-size:18px;margin:0}
+.test-panel-head p{color:var(--dim);font-size:12px;line-height:1.35;margin-top:2px}
+.test-panel .form-grid{grid-template-columns:1fr 1fr;gap:10px}
+.test-panel .field{margin-bottom:0}
+.test-panel .field input{font-size:15px;padding:10px 12px}
+.test-date-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px}
+.test-save-row{display:grid;grid-template-columns:1fr;gap:8px}
+.test-history-clean{display:grid;gap:10px}
+.test-history-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px}
+.test-history-card .th-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:800}
+.test-history-card .th-date{font-size:12px;color:var(--dim)}
+@media(max-width:520px){.test-panel .form-grid{grid-template-columns:1fr}.test-panel-head{display:block}}
 
 /* ── BUILD: choose AI vs manual ─────────────────── */
 .build-choice{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
@@ -925,16 +945,16 @@ main{padding-top:12px!important}.view{animation:premiumFade .18s ease both}@keyf
 
 <!-- ═══════════════════════════════════════════════════ THEME PICKER -->
 <div id="themePicker">
-  <div class="tp-logo">DYLAN'S<span>WORKOUT</span></div>
+  <div class="tp-logo">DYLAN'S<span>TRAINING APP</span></div>
   <div class="tp-sub">Pick your look</div>
   <div class="theme-grid" id="themeOptions"></div>
 </div>
 
 <!-- ═══════════════════════════════════════════════════ PROFILE SCREEN -->
 <div id="profileScreen">
-  <div class="logo">VERT<span>OS</span></div>
+  <div class="logo">DYLAN'S<span>TRAINING APP</span></div>
   <div class="tagline" id="profileTagline">Choose your athlete</div>
-  <div class="profile-intro">Choose a profile. Each athlete gets a separate plan, logbook, layout, and coach context.</div>
+  <div class="profile-intro">Choose a profile. Each athlete gets a separate plan, logbook, and training coach context.</div>
   <div class="profile-grid" id="profileGrid"></div>
   <div id="homeAuthBar" onclick="openAuth()">
     <span class="hab-icon">☁️</span>
@@ -951,12 +971,11 @@ main{padding-top:12px!important}.view{animation:premiumFade .18s ease both}@keyf
 <div id="appShell">
   <header>
     <div class="brand-lockup">
-      <div class="logo-sm">VERT<span>OS</span></div>
-      <div class="logo-sub">Less noise. Better sessions.</div>
+      <div class="logo-sm">DYLAN'S<span>APP</span></div>
+      <div class="logo-sub">Training-first tracker</div>
     </div>
     <div class="header-right">
       <button class="header-icon" type="button" onclick="switchView('library')" aria-label="Exercise library">⌕</button>
-      <button class="header-icon" type="button" onclick="openLayoutEditor()" aria-label="Customize today">◫</button>
       <div id="activeProfileBadge">
         <div class="mini-av" id="badgeAv"></div>
         <div class="mini-name" id="badgeName"></div>
@@ -969,7 +988,7 @@ main{padding-top:12px!important}.view{animation:premiumFade .18s ease both}@keyf
     <section class="view" id="view-program"></section>
     <section class="view" id="view-tests">
       <div class="sec-title">Log a Test</div>
-      <div class="form-grid" id="testForm"></div>
+      <div id="testForm"></div>
       <button class="btn volt" id="saveTestBtn">Save Test</button>
       <div class="sec-title" style="margin-top:24px">Test History</div>
       <div id="testHistory"></div>
@@ -1043,11 +1062,36 @@ main{padding-top:12px!important}.view{animation:premiumFade .18s ease both}@keyf
       </div>
       <div id="buildAiPanel" class="build-ai-panel" style="display:none">
         <div class="sec-title" style="font-size:16px;margin-top:0">AI Program Builder</div>
-        <p class="hint">Describe the program you want. The generated plan previews here before it replaces your current program.</p>
-        <textarea id="buildAiProgPrompt" class="modal-input" style="min-height:92px;resize:vertical" placeholder="e.g. 4-day dumbbell/cable program, pregnancy-safe second trimester, no flat bench, 45 minutes per day"></textarea>
-        <div class="build-ai-actions">
-          <button class="btn volt" id="buildAiBuildBtn">Generate new program</button>
-          <button class="btn ghost" id="buildAiUpdateBtn">Update current program</button>
+        <p class="hint">Use your API key to generate training plans only. Pick a normal weekly plan or a game-aware dated plan.</p>
+        <div class="seg build-ai-tabs" id="buildAiTabs">
+          <button class="active" type="button" data-baimode="weekly" onclick="setBuildAiMode('weekly')">Weekly Program</button>
+          <button type="button" data-baimode="game" onclick="setBuildAiMode('game')">Game-Aware Plan</button>
+        </div>
+        <div id="buildAiWeeklyPane">
+          <p class="hint">Describe the program you want. The generated plan previews here before it replaces your current weekly program.</p>
+          <textarea id="buildAiProgPrompt" class="modal-input" style="min-height:92px;resize:vertical" placeholder="e.g. 4-day dumbbell/cable program, pregnancy-safe second trimester, no flat bench, 45 minutes per day"></textarea>
+          <div class="build-ai-actions">
+            <button class="btn volt" id="buildAiBuildBtn">Generate new weekly program</button>
+            <button class="btn ghost" id="buildAiUpdateBtn">Update current weekly program</button>
+          </div>
+        </div>
+        <div id="buildAiGamePane" style="display:none">
+          <p class="hint">Build a dated plan around games. It can taper before games, mark game days, and show the correct session on Today and Calendar.</p>
+          <div class="modal-row" style="margin-bottom:8px">
+            <div style="flex:1"><span class="modal-label">Start date</span><input class="modal-input" id="buildGpStart" type="date"/></div>
+            <div style="flex:1"><span class="modal-label">End date</span><input class="modal-input" id="buildGpEnd" type="date"/></div>
+          </div>
+          <span class="modal-label">Game dates (one per line, YYYY-MM-DD)</span>
+          <textarea id="buildGpGames" class="modal-input" style="min-height:60px;resize:vertical" placeholder="2026-06-21&#10;2026-06-28&#10;2026-07-05"></textarea>
+          <span class="modal-label">Practice days / notes</span>
+          <input class="modal-input" id="buildGpPractice" placeholder="e.g. practice every Mon & Wed"/>
+          <span class="modal-label">Training instructions</span>
+          <textarea id="buildGpPrompt" class="modal-input" style="min-height:76px;resize:vertical" placeholder="e.g. vertical-jump program, 3 lifts/week, keep legs fresh before games, peak by playoffs"></textarea>
+          <div class="build-ai-actions">
+            <button class="btn volt" id="buildGpBuildBtn">Generate game-aware plan</button>
+            <button class="btn ghost" id="buildGpExportBtn">Export active season plan</button>
+          </div>
+          <div id="buildGpStatusLine" class="hint" style="margin-top:6px"></div>
         </div>
         <div id="buildAiOutput"></div>
       </div>
@@ -1068,7 +1112,7 @@ main{padding-top:12px!important}.view{animation:premiumFade .18s ease both}@keyf
       <div id="libContent"></div>
     </section>
     <section class="view" id="view-ai">
-      <div class="sec-title">AI Coach</div>
+      <div class="sec-title">Training AI Coach</div>
       <div class="ai-card">
         <h3>Review My Training</h3>
         <p class="hint">Claude looks at your recent sessions and jump tests and gives feedback on what's working and what to adjust.</p>
@@ -1083,16 +1127,10 @@ main{padding-top:12px!important}.view{animation:premiumFade .18s ease both}@keyf
       </div>
       <div class="ai-card" style="border-color:var(--blue)">
         <h3>💬 Ask Your Coach</h3>
-        <p class="hint">Ask training questions or app questions. It knows your program, recent logs, and how this app works.</p>
-        <div class="ai-help-chips">
-          <button class="ai-help-chip" type="button" onclick="sendChat('How do I customize the Today screen?')">Customize Today</button>
-          <button class="ai-help-chip" type="button" onclick="sendChat('How do I swap an exercise?')">Swap exercise</button>
-          <button class="ai-help-chip" type="button" onclick="sendChat('How do I export my logs?')">Export logs</button>
-          <button class="ai-help-chip" type="button" onclick="sendChat('How do I build a program in the app?')">Build program</button>
-        </div>
+        <p class="hint">Training questions only: programming, form, recovery, exercise substitutions, readiness, nutrition basics, and sport prep. App/menu help is intentionally not handled here.</p>
         <div id="chatLog" class="chat-log"></div>
         <div class="chat-input-row">
-          <input type="text" id="chatInput" class="chat-input" placeholder="Ask training or app help…" autocomplete="off"/>
+          <input type="text" id="chatInput" class="chat-input" placeholder="Ask a training question…" autocomplete="off"/>
           <button class="chat-send" id="chatSendBtn">➤</button>
         </div>
         <button class="btn ghost" id="chatClearBtn" style="margin-top:6px;font-size:12px;padding:6px">Clear conversation</button>
@@ -1155,7 +1193,7 @@ main{padding-top:12px!important}.view{animation:premiumFade .18s ease both}@keyf
         <div class="menu-list">
           <div class="menu-item" onclick="switchView('ai')">
             <span class="mi-icon">🤖</span>
-            <div class="mi-text"><div class="mi-title">AI Coach</div><div class="mi-sub">Review training + build programs (needs API key)</div></div>
+            <div class="mi-text"><div class="mi-title">Training AI Coach</div><div class="mi-sub">Review training + build programs (needs API key)</div></div>
             <span class="mi-arrow">›</span>
           </div>
           <div class="menu-item" onclick="switchView('library')">
@@ -1361,14 +1399,9 @@ main{padding-top:12px!important}.view{animation:premiumFade .18s ease both}@keyf
     <div class="modal layout-modal">
       <button class="close" onclick="closeModal('layoutModal')">X</button>
       <h2>Today Layout</h2>
-      <p class="hint" style="margin-bottom:12px">Choose what your home screen shows. The workout stays one tap away, but the dashboard can be as quiet or detailed as you want.</p>
-      <div class="layout-presets">
-        <button type="button" onclick="setTodayPreset('minimal')">Minimal</button>
-        <button type="button" onclick="setTodayPreset('athlete')">Athlete</button>
-        <button type="button" onclick="setTodayPreset('full')">Full</button>
-      </div>
+      <p class="hint" style="margin-bottom:12px">Simplified to two useful choices so the Today screen does not turn into another settings page.</p>
       <div id="todayLayoutList"></div>
-      <button class="btn volt" onclick="saveTodayLayoutAndClose()">Save Layout</button>
+      <button class="btn volt" onclick="saveTodayLayoutAndClose()">Done</button>
       <button class="btn ghost" style="margin-top:6px" onclick="closeModal('layoutModal')">Cancel</button>
     </div>
   </div>
@@ -1441,15 +1474,16 @@ main{padding-top:12px!important}.view{animation:premiumFade .18s ease both}@keyf
   <div class="modal-bg" id="coachModal">
     <div class="modal">
       <button class="close" onclick="closeModal('coachModal')">✕</button>
-      <h2>Coach + App Help</h2>
+      <h2>Training Coach</h2>
+      <p class="hint" style="margin-bottom:10px">Training questions only. Use this for form, programming, recovery, readiness, substitutions, and sport prep.</p>
       <div class="coach-help-chips">
-        <button type="button" onclick="sendChat('Where do I change the Today layout?')">Layout help</button>
-        <button type="button" onclick="sendChat('How do I swap an exercise just for today?')">Swap help</button>
-        <button type="button" onclick="sendChat('How do I export a program or logs?')">Export help</button>
+        <button type="button" onclick="sendChat('How should I adjust today if my legs feel heavy?')">Readiness</button>
+        <button type="button" onclick="sendChat('What should I focus on for my next jump session?')">Jump session</button>
+        <button type="button" onclick="sendChat('What is a good substitute for this exercise if my equipment is taken?')">Substitute</button>
       </div>
       <div id="coachLog"></div>
       <div class="chat-input-row">
-        <input type="text" id="coachInput" class="chat-input" placeholder="Ask training or app questions..." autocomplete="off"/>
+        <input type="text" id="coachInput" class="chat-input" placeholder="Ask a training question..." autocomplete="off"/>
         <button class="chat-send" id="coachSendBtn">➤</button>
       </div>
     </div>
@@ -1525,7 +1559,7 @@ main{padding-top:12px!important}.view{animation:premiumFade .18s ease both}@keyf
       <span class="fab-tool-icon">🏃</span><span><b>Cardio / activity</b><small>Log a run, bike, walk, sport, or conditioning</small></span>
     </button>
     <button class="fab-tool" id="fabCoach" type="button">
-      <span class="fab-tool-icon">💬</span><span><b>AI coach</b><small>Ask a training question while you lift</small></span>
+      <span class="fab-tool-icon">💬</span><span><b>Training coach</b><small>Ask a training question while you lift</small></span>
     </button>
   </div>
   <button class="fab-add" id="fab" title="Open training tools" type="button">＋</button>
@@ -2633,7 +2667,7 @@ function todayDashboard(day, saved, tk) {
   const show = id => layout.widgets.includes(id);
   const focus = el('div','focus-card');
   focus.style.setProperty('--pct', pct);
-  focus.innerHTML = `<div class="focus-top"><div><div class="focus-kicker">${day.type==='lift'?'Current set path':day.type==='plyo'?'Power focus':day.type==='rest'?'Recovery focus':'Today'}</div><div class="focus-title">${esc(nextTitle)}</div><div class="focus-sub">${nextSub}</div></div><div class="focus-ring">${planned ? pct + '%' : (logged ? '✓' : '—')}</div></div><div class="session-progress" aria-label="Session progress"><span style="width:${pct}%"></span></div><div class="focus-actions"><button class="premium-btn primary" type="button" onclick="scrollToSessionStart()">Start workout</button><button class="premium-btn" type="button" onclick="openCoach()">Ask coach</button><button class="premium-btn ghost" type="button" onclick="openLayoutModal()">Customize</button></div>`;
+  focus.innerHTML = `<div class="focus-top"><div><div class="focus-kicker">${day.type==='lift'?'Current set path':day.type==='plyo'?'Power focus':day.type==='rest'?'Recovery focus':'Today'}</div><div class="focus-title">${esc(nextTitle)}</div><div class="focus-sub">${nextSub}</div></div><div class="focus-ring">${planned ? pct + '%' : (logged ? '✓' : '—')}</div></div><div class="session-progress" aria-label="Session progress"><span style="width:${pct}%"></span></div><div class="focus-actions"><button class="premium-btn primary" type="button" onclick="scrollToSessionStart()">Start workout</button><button class="premium-btn" type="button" onclick="openCoach()">Ask coach</button></div>`;
   wrap.appendChild(focus);
   if (show('actions')) wrap.insertAdjacentHTML('beforeend', `<div class="premium-action-row"><button class="premium-action" onclick="openQuickAdd('today')"><span>＋</span>Add</button><button class="premium-action" onclick="openLibrary('today')"><span>⌕</span>Library</button><button class="premium-action" onclick="switchView('orm')"><span>％</span>1RM</button><button class="premium-action" onclick="openActivity('${tk}')"><span>↯</span>Activity</button></div>`);
   const widgets = [];
@@ -2779,44 +2813,61 @@ function renderProgram() {
 }
 
 /* ═══════════════════════════════════════════════════════
-   JUMP TESTS
+   TESTS — cleaner tabbed logger
 ════════════════════════════════════════════════════════ */
+let activeTestCat = 'Skill / Sport';
+const TEST_CAT_BLURBS = {
+  'Skill / Sport':'Vertical, broad jump, shuttle, RSI, and sport-performance markers.',
+  'Strength':'1RM estimates and bodyweight strength benchmarks.',
+  'Endurance':'Conditioning, heart-rate, and work-capacity markers.',
+  'Body':'Bodyweight and body-composition notes.',
+  'Wellness':'Readiness, sleep, and recovery markers.',
+  'Custom':'Your custom tests.'
+};
+function testCats(){
+  const base = [...METRIC_CATS, ...getCustomMetrics(activeProfile.id).map(m=>m.cat||'Custom')];
+  return [...new Set(base)].filter(cat => allMetrics().some(m => (m.cat||'Custom') === cat));
+}
+function setTestCat(cat){ activeTestCat = cat; renderTestForm(); }
 function renderTestForm() {
-  const f=$('#testForm'); f.innerHTML='';
-  const df=el('div','field full'); df.innerHTML=`<label>Date</label><input type="date" id="t_date" value="${todayKey()}">`;
-  f.appendChild(df);
-  const mets = allMetrics();
-  const cats = [...METRIC_CATS, ...[...new Set(getCustomMetrics(activeProfile.id).map(m=>m.cat||'Custom'))]];
-  [...new Set(cats)].forEach(cat=>{
-    const inCat = mets.filter(m=>(m.cat||'Custom')===cat);
-    if(!inCat.length) return;
-    const det=document.createElement('details'); det.className='test-cat';
-    if(cat==='Strength') det.open=true; // open the first by default
-    det.innerHTML=`<summary>${esc(cat)}</summary>`;
-    const grid=el('div','form-grid');
-    inCat.forEach(m=>{
-      const fld=el('div','field');
-      fld.innerHTML=`<label>${esc(m.label)}</label><input type="number" inputmode="decimal" id="t_${m.key}" placeholder="—">`;
-      grid.appendChild(fld);
-    });
-    det.appendChild(grid);
-    f.appendChild(det);
+  const f=$('#testForm'); if(!f) return; f.innerHTML='';
+  const cats = testCats();
+  if(!cats.includes(activeTestCat)) activeTestCat = cats.includes('Skill / Sport') ? 'Skill / Sport' : (cats[0] || 'Strength');
+  const shell = el('div','test-shell');
+  const dateCard = el('div','test-date-card');
+  dateCard.innerHTML = `<div class="field full" style="margin:0"><label>Test date</label><input type="date" id="t_date" value="${todayKey()}"></div>`;
+  shell.appendChild(dateCard);
+  const tabs = el('div','test-tabs');
+  tabs.innerHTML = cats.map(cat => `<button type="button" class="test-tab ${cat===activeTestCat?'active':''}" onclick="setTestCat('${esc(cat).replace(/'/g,"\\'")}')">${esc(cat)}</button>`).join('');
+  shell.appendChild(tabs);
+  const inCat = allMetrics().filter(m => (m.cat||'Custom') === activeTestCat);
+  const panel = el('div','test-panel');
+  panel.innerHTML = `<div class="test-panel-head"><div><h3>${esc(activeTestCat)}</h3><p>${esc(TEST_CAT_BLURBS[activeTestCat] || 'Track this category when it matters.')}</p></div><span class="status-pill">Open</span></div>`;
+  const grid=el('div','form-grid');
+  inCat.forEach(m=>{
+    const fld=el('div','field');
+    fld.innerHTML=`<label>${esc(m.label)}</label><input type="number" inputmode="decimal" id="t_${m.key}" placeholder="—">`;
+    grid.appendChild(fld);
   });
-  // add custom test type
+  panel.appendChild(grid);
+  shell.appendChild(panel);
+  const nf=el('div','field full');
+  nf.innerHTML=`<label>Notes</label><input type="text" id="t_notes" placeholder="conditions, how it felt, surface, shoes…">`;
+  shell.appendChild(nf);
   const addC=el('button','btn ghost','＋ Add a custom test type');
-  addC.style.cssText='margin:6px 0 12px'; addC.onclick=addCustomMetric;
-  f.appendChild(addC);
-  const nf=el('div','field full'); nf.innerHTML=`<label>Notes</label><input type="text" id="t_notes" placeholder="conditions, how you felt…">`;
-  f.appendChild(nf);
+  addC.type='button'; addC.style.cssText='margin:0 0 4px'; addC.onclick=addCustomMetric;
+  shell.appendChild(addC);
+  f.appendChild(shell);
 }
 function addCustomMetric(){
-  const name=prompt('Name your test (include the unit), e.g. "40-yd Dash (sec)" or "Max Bench (lbs)":');
+  const name=prompt('Name your test (include the unit), e.g. "Approach Jump (in)" or "Shuttle (sec)":');
   if(!name||!name.trim()) return;
   const dir=prompt('Is a HIGHER or LOWER number better? Type "high", "low", or leave blank for neither:','high');
   const better=(dir==='low')?'low':(dir==='high')?'high':'';
   const customs=getCustomMetrics(activeProfile.id);
   customs.push({key:'c_'+Date.now(), label:name.trim(), cat:'Custom', better, custom:true});
   setCustomMetrics(activeProfile.id, customs);
+  activeTestCat='Custom';
   renderTestForm();
   toast('Custom test added');
 }
@@ -2824,11 +2875,11 @@ function addCustomMetric(){
 $('#saveTestBtn').onclick = () => {
   const t={date:$('#t_date').value||todayKey(), notes:$('#t_notes').value||''};
   let any=false;
-  allMetrics().forEach(m=>{ const el=$('#t_'+m.key); if(el && el.value!==''){t[m.key]=parseFloat(el.value);any=true;} });
+  allMetrics().forEach(m=>{ const node=$('#t_'+m.key); if(node && node.value!==''){t[m.key]=parseFloat(node.value);any=true;} });
   if(!any){toast('Enter at least one value');return;}
   const tests=Store.getTests(activeProfile.id); tests.push(t); Store.setTests(activeProfile.id,tests);
   renderTestForm(); renderTestHistory();
-  toast('Test saved 💥');
+  toast('Test saved');
 };
 
 function bestFor(key,better,tests){
@@ -2838,12 +2889,13 @@ function bestFor(key,better,tests){
 }
 
 function renderTestHistory() {
-  const h=$('#testHistory'); h.innerHTML='';
+  const h=$('#testHistory'); if(!h) return; h.innerHTML='';
   const allTests=Store.getTests(activeProfile.id);
   const sorted=allTests.slice().sort((a,b)=>a.date<b.date?1:-1);
   if(!sorted.length){h.appendChild(el('div','empty','<span class="big">No tests yet</span>Log your first test to start tracking.'));return;}
-  sorted.forEach(t=>{
-    const row=el('div','log-row');
+  const wrap=el('div','test-history-clean');
+  sorted.slice(0,20).forEach(t=>{
+    const row=el('div','test-history-card');
     let pills='';
     allMetrics().forEach(m=>{
       if(typeof t[m.key]==='number'){
@@ -2852,10 +2904,10 @@ function renderTestHistory() {
         pills+=`<span class="pill ${isPR?'pr':''}">${esc(m.label.split(' (')[0])}: <b>${t[m.key]}</b>${isPR?' <span class="pr-tag">PR</span>':''}</span>`;
       }
     });
-    row.innerHTML=`<div class="top"><span>Test</span><span class="date">${esc(t.date)}</span></div>
-      <div class="detail">${pills}${t.notes?`<br><i style="font-size:11px">"${esc(t.notes)}"</i>`:''}</div>`;
-    h.appendChild(row);
+    row.innerHTML=`<div class="th-top"><span>Test Log</span><span class="th-date">${esc(t.date)}</span></div><div class="detail">${pills}${t.notes?`<br><i style="font-size:11px">"${esc(t.notes)}"</i>`:''}</div>`;
+    wrap.appendChild(row);
   });
+  h.appendChild(wrap);
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -4506,6 +4558,7 @@ $('#buildResetBtn') && $('#buildResetBtn').addEventListener('click', () => {
 
 /* ── BUILD TAB MODE + INLINE AI PROGRAM BUILDER ── */
 let _buildMode = 'manual';
+let _buildAiMode = 'weekly';
 function setBuildMode(mode){
   _buildMode = mode === 'ai' ? 'ai' : 'manual';
   const ai = $('#buildAiPanel'), manual = $('#buildOwnAnchor');
@@ -4514,7 +4567,17 @@ function setBuildMode(mode){
   const mc = $('#buildManualCard'), ac = $('#buildAiCard');
   if (mc) mc.classList.toggle('active', _buildMode === 'manual');
   if (ac) ac.classList.toggle('active', _buildMode === 'ai');
-  if (_buildMode === 'ai') setTimeout(()=>{ const t=$('#buildAiProgPrompt'); if(t) t.focus(); }, 80);
+  if (_buildMode === 'ai') { setBuildAiMode(_buildAiMode || 'weekly'); }
+}
+function setBuildAiMode(mode){
+  _buildAiMode = mode === 'game' ? 'game' : 'weekly';
+  const weekly = $('#buildAiWeeklyPane'), game = $('#buildAiGamePane');
+  if (weekly) weekly.style.display = _buildAiMode === 'weekly' ? 'block' : 'none';
+  if (game) game.style.display = _buildAiMode === 'game' ? 'block' : 'none';
+  const tabs = $('#buildAiTabs');
+  if (tabs) tabs.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.baimode === _buildAiMode));
+  const out = $('#buildAiOutput'); if(out) out.innerHTML = '';
+  setTimeout(()=>{ const t = _buildAiMode === 'game' ? $('#buildGpPrompt') : $('#buildAiProgPrompt'); if(t) t.focus(); }, 80);
 }
 function buildAiLoading(msg){ const out=$('#buildAiOutput'); if(out) out.innerHTML = `<div class="ai-card"><div class="ai-loading"><div class="ai-spinner"></div>${esc(msg)}</div></div>`; }
 function buildAiError(err){ const out=$('#buildAiOutput'); if(out) out.innerHTML = `<div class="ai-card" style="border-color:var(--red)"><b style="color:var(--red)">AI request failed</b><div class="ai-disclaimer" style="font-style:normal;margin-top:8px">${esc(String(err).slice(0,220))}</div></div>`; }
@@ -4547,7 +4610,7 @@ function renderBuildAiPreview(prog, label){
   });
 }
 async function runBuildAiProgram(update){
-  if (!getApiKey()) { toast('Add your API key in More → AI Coach first'); setBuildMode('ai'); return; }
+  if (!getApiKey()) { toast('Add your API key in More → Training AI Coach first'); setBuildMode('ai'); return; }
   const prompt = ($('#buildAiProgPrompt') && $('#buildAiProgPrompt').value.trim()) || '';
   if (!prompt) { toast(update ? 'Type what you want changed' : 'Describe the program you want'); return; }
   buildAiLoading(update ? 'Updating your program…' : 'Building your program…');
@@ -4567,6 +4630,33 @@ async function runBuildAiProgram(update){
 }
 $('#buildAiBuildBtn') && $('#buildAiBuildBtn').addEventListener('click', ()=>runBuildAiProgram(false));
 $('#buildAiUpdateBtn') && $('#buildAiUpdateBtn').addEventListener('click', ()=>runBuildAiProgram(true));
+
+async function runBuildGameAwarePlan(){
+  if (!getApiKey()) { toast('Add your API key in More → Training AI Coach first'); setBuildMode('ai'); setBuildAiMode('game'); return; }
+  const start = ($('#buildGpStart') && $('#buildGpStart').value) || '';
+  const end = ($('#buildGpEnd') && $('#buildGpEnd').value) || '';
+  if (!start || !end) { toast('Set a start and end date'); return; }
+  if (end < start) { toast('End date must be after start'); return; }
+  const games = (($('#buildGpGames') && $('#buildGpGames').value) || '').split('\n').map(s=>s.trim()).filter(s=>/^\d{4}-\d{2}-\d{2}$/.test(s));
+  const practice = (($('#buildGpPractice') && $('#buildGpPractice').value) || '').trim();
+  const prompt = (($('#buildGpPrompt') && $('#buildGpPrompt').value) || '').trim();
+  if (!prompt) { toast('Add your training instructions'); return; }
+  buildAiLoading('Building your game-aware plan…');
+  try {
+    const plan = await generateSeasonPlan(start, end, games, practice, prompt);
+    if (!plan.schedule || !Object.keys(plan.schedule).length) throw new Error('AI did not return a valid dated plan');
+    setDatedPlan(activeProfile.id, plan);
+    const out = $('#buildAiOutput');
+    if (out) out.innerHTML = planSummaryHTML(plan) +
+      `<button class="btn volt" style="margin-top:12px" onclick="switchView('today')">View today's session</button>
+       <button class="btn ghost" style="margin-top:6px" onclick="switchView('calendar')">See it on the calendar</button>`;
+    const st = $('#buildGpStatusLine'); if(st) st.textContent = 'Game-aware plan active ✓';
+    refreshGamePlanUI();
+    toast('Game-aware plan loaded');
+  } catch(err) { console.error(err); buildAiError(err.message || err); }
+}
+$('#buildGpBuildBtn') && $('#buildGpBuildBtn').addEventListener('click', runBuildGameAwarePlan);
+$('#buildGpExportBtn') && $('#buildGpExportBtn').addEventListener('click', exportDatedPlan);
 
 
 /* ═══════════════════════════════════════════════════════
@@ -4940,10 +5030,12 @@ async function callClaude(systemPrompt, userContent, maxTokens) {
 }
 
 function aiLoading(msg) {
-  $('#aiOutput').innerHTML = `<div class="ai-card"><div class="ai-loading"><div class="ai-spinner"></div>${esc(msg)}</div></div>`;
+  const html = `<div class="ai-card"><div class="ai-loading"><div class="ai-spinner"></div>${esc(msg)}</div></div>`;
+  ['#aiOutput','#buildAiOutput'].forEach(sel => { const node=$(sel); if(node) node.innerHTML = html; });
 }
 function aiError(err) {
-  $('#aiOutput').innerHTML = `<div class="ai-card" style="border-color:var(--red)"><b style="color:var(--red)">Couldn't reach the AI</b><div class="ai-disclaimer" style="font-style:normal;margin-top:8px">${esc(String(err))}</div><div class="ai-disclaimer">If you see a network/CORS error, this usually works in the installed Android app but not in a plain browser. Also check your key and that you have API credits.</div></div>`;
+  const html = `<div class="ai-card" style="border-color:var(--red)"><b style="color:var(--red)">Couldn't reach the AI</b><div class="ai-disclaimer" style="font-style:normal;margin-top:8px">${esc(String(err))}</div><div class="ai-disclaimer">If you see a network/CORS error, this usually works in the installed Android app but not in a plain browser. Also check your key and that you have API credits.</div></div>`;
+  ['#aiOutput','#buildAiOutput'].forEach(sel => { const node=$(sel); if(node) node.innerHTML = html; });
 }
 
 $('#aiReviewBtn') && $('#aiReviewBtn').addEventListener('click', async () => {
@@ -5038,47 +5130,29 @@ async function callClaudeChat(systemPrompt, messages, maxTokens) {
 }
 
 
-function appHelpManual() {
-  return `APP MAP / HOW THIS APP WORKS
-- Today: the calm home screen. It shows the next move, a start button, optional widgets, and the workout log.
-- Customize Today: Today header -> Layout, or More -> Today Layout. Users can show/hide quick actions, targets, readiness, power, coach signal, and activity.
-- Calendar: tap any date to backfill or edit workouts and activities from the past.
-- Build: create a program manually, use AI to generate/update one, import Excel, or export a built program to the Program-sheet Excel format.
-- Exercise Library: More -> Exercise Library, or the search icon. Browse body part -> movement group -> exercise. Use it to add to Today, Free Lift, Builder, or as a swap.
-- Swap exercise: on a workout card tap swap. Pick a suggestion/library exercise/custom name, then choose Just Today or Whole Program.
-- Progress: strength charts, jump-test charts, and trend analysis. Charts can be shared/exported.
-- 1RM: More -> 1RM Calculator. Estimate or manually save a max. Program exercises with pct use this to show working weights.
-- Free Lift: More -> Free Lift. Build one-off workouts or saved templates outside the main program.
-- Export logs: More -> Data -> Export My Logs. Android uses native share; web uses download fallback. Export log appears below the button.
-- Cloud sync: More -> Account & Sync. Optional Firebase sign-in backs up profile data.
-- AI Coach: More -> AI Coach or floating Coach. It can answer app-help questions and training questions.`;
+function isAppSupportQuestion(text) {
+  const q = String(text||'').toLowerCase();
+  return /\b(app|menu|screen|tab|button|where|navigate|navigation|layout|customi[sz]e|export|download|calendar|backfill|profile|theme|sync|cloud|account|xlsx|excel|import|build tab|more tab|settings|tour)\b/.test(q)
+    || /how do i (use|find|open|change|export|import|navigate|customi[sz]e|switch)/.test(q);
 }
 function localAppHelpAnswer(text) {
-  const q = String(text||'').toLowerCase();
-  const isApp = /app|where|how do i|how to|screen|today|layout|customi[sz]e|export|calendar|past|builder|build|excel|xlsx|library|exercise|swap|substitut|1rm|max|progress|graph|chart|free lift|cloud|sync|profile|tour|theme/.test(q);
-  if (!isApp) return null;
-  if (/layout|customi[sz]e|home screen|today screen/.test(q)) return `**Customize Today**\nGo to **Today header -> Layout** or **More -> Today Layout**. You can turn widgets on/off per profile: quick actions, next-session targets, readiness, power, coach signal, and activity. Use **Minimal** for the cleanest home screen.`;
-  if (/export|download|share|logs/.test(q)) return `**Export logs**\nOpen **More -> Data -> Export My Logs**. In the APK it writes the Excel file through Android storage and opens the native share sheet. The export history appears directly under the export button so you can confirm it worked.`;
-  if (/calendar|past|backfill|previous|yesterday/.test(q)) return `**Backfill or edit the past**\nOpen **Calendar**, tap the date, then log or edit the workout for that day. You can also add custom exercises and cardio/activity to that selected date.`;
-  if (/swap|substitut|alternative|replace/.test(q)) return `**Swap an exercise**\nOn Today, tap **swap** on the exercise card. Choose an app suggestion, browse the library, or type your own. The app then asks whether the change is **Just today** or for the **Whole program**.`;
-  if (/library|exercise/.test(q)) return `**Exercise Library**\nOpen **More -> Exercise Library** or tap **Library** from Today. Browse by body part, then movement group, then exercise. Exercise pages show a clearer animated movement pattern, setup/execution cues, equipment, and suggested sets/reps.`;
-  if (/builder|build|program|excel|xlsx|plan/.test(q)) return `**Build or share programs**\nUse **Build** to edit days, sections, exercises, sets, reps, notes, and percent-of-1RM targets. You can export the built plan to the same Excel Program-sheet format so another profile or another person can import it.`;
-  if (/1rm|max|percent|percentage|75|80|85/.test(q)) return `**1RM / percentage work**\nGo to **More -> 1RM Calculator**. Enter weight and reps to estimate a max, or save a known 1RM. Exercises with a percentage target then show working weights like 80% -> target lbs.`;
-  if (/progress|graph|chart|trend|stall|peak/.test(q)) return `**Progress and trends**\nOpen **Progress**. Strength and jump-test charts show change over time, and Trends flags progressing, stalling, or regressing exercises with practical next steps.`;
-  if (/free lift|custom session|own workout/.test(q)) return `**Free Lift**\nOpen **More -> Free Lift**. Build a one-off session from typed exercises or from the library. Saved workouts can be loaded again later.`;
-  if (/cloud|sync|profile|account|shared/.test(q)) return `**Profiles and sync**\nProfiles keep programs and logs separate on the same device. Optional cloud sync is under **More -> Account & Sync**. On shared devices, use the cloud-save switcher to pick the remembered account.`;
-  return `I can help with the app too. Useful paths: **Today -> Customize** for home layout, **Calendar** for past edits, **Build** for programs/Excel, **Library** for exercises/swaps, **Progress** for charts/trends, **More -> 1RM Calculator**, and **More -> Data -> Export My Logs**.`;
+  if (!isAppSupportQuestion(text)) return null;
+  return `I’m training-only now, so I won’t answer app, menu, layout, export, or navigation questions from the coach chat. Use the visible tabs/buttons in the app for those. Ask me about training instead — programming, form, substitutions, recovery, readiness, or game prep.`;
 }
 
 function coachSystemPrompt() {
   let ctx = '';
   try { ctx = buildTrainingSummary(); } catch(e){}
   const planNote = planActive() ? 'The athlete is currently following a game-aware dated season plan.' : '';
-  return `You are the athlete's personal strength & conditioning and jump-training coach, chatting with them inside their training app. Answer training questions directly and practically — form cues, recovery, exercise substitutions, programming logic, nutrition basics, and motivation. You ALSO act as an app guide/support assistant. If the user asks how to use the app, answer using the app manual below and give the exact screen path. Be concise and conversational; use short lists only when helpful. Encouraging but honest. This is general fitness guidance, not medical advice — suggest a professional for injuries or medical concerns. ${planNote}
+  return `You are the athlete's personal strength & conditioning coach inside Dylan's Training App. You are TRAINING-ONLY.
 
-${appHelpManual()}
+Allowed topics: strength training, jump training, sport prep, recovery, readiness, exercise substitutions, form cues, programming logic, nutrition basics, deloads, tapering, and interpreting the athlete's logged training data.
 
-For context, here is a summary of the athlete's recent training (use it only if relevant to their question):
+Disallowed topics: app navigation, menus, buttons, layout customization, export/import instructions, account/sync, theme settings, or general app support. If asked about those, briefly say you are training-only and ask for a training question instead.
+
+Be concise, practical, and direct. This is general fitness guidance, not medical advice; suggest a qualified professional for injury, pregnancy, medical, pain, or concerning symptoms. ${planNote}
+
+TRAINING CONTEXT:
 ${ctx}`;
 }
 
@@ -5097,7 +5171,7 @@ async function sendChat(fromText) {
     renderChat();
     return;
   }
-  if (!getApiKey()) { renderChat(); toast('Add your API key in More → AI Coach first'); return; }
+  if (!getApiKey()) { renderChat(); toast('Add your API key in More → Training AI Coach first'); return; }
   renderChat();
   const log = $('#coachLog') || $('#chatLog');
   const typing = el('div','chat-typing','Coach is typing…');
@@ -6228,17 +6302,12 @@ function openLayoutEditor(){ renderTodayLayoutEditor(); openModal('layoutModal')
 function openLayoutModal(){ openLayoutEditor(); }
 function renderTodayLayoutEditor(){
   const box = $('#todayLayoutList'); if(!box) return;
-  const selected = getTodayLayout(); const selectedSet = new Set(selected);
-  const ordered = selected.concat(V32_TODAY_WIDGETS.map(x=>x.id).filter(id=>!selectedSet.has(id)));
-  const meta = Object.fromEntries(V32_TODAY_WIDGETS.map(x=>[x.id,x]));
-  box.innerHTML = ordered.map(id=>{
-    const w = meta[id]; const on = selectedSet.has(id);
-    return `<div class="layout-row ${on?'on':''}">
-      <input type="checkbox" ${on?'checked':''} onchange="v32ToggleWidget('${id}',this.checked)">
-      <div><b>${esc(w.name)}</b><small>${esc(w.sub)}</small></div>
-      <div class="lr-actions"><button type="button" onclick="v32MoveWidget('${id}',-1)">Up</button><button type="button" onclick="v32MoveWidget('${id}',1)">Down</button></div>
-    </div>`;
-  }).join('');
+  const selected = getTodayLayout();
+  const isDetailed = selected.includes('power') || selected.includes('readiness') || selected.includes('coach') || selected.includes('activity');
+  box.innerHTML = `<div class="layout-list">
+    <label class="layout-option ${!isDetailed?'on':''}" onclick="setTodayPreset('athlete')"><input type="radio" name="simpleLayout" ${!isDetailed?'checked':''}><span><b>Standard</b><small>Next move, target loads, quick actions, and workout logger. This is the recommended clean setup.</small></span></label>
+    <label class="layout-option ${isDetailed?'on':''}" onclick="setTodayPreset('full')"><input type="radio" name="simpleLayout" ${isDetailed?'checked':''}><span><b>Detailed</b><small>Add readiness, power metrics, coach signal, and activity logging to Today.</small></span></label>
+  </div>`;
 }
 function v32ToggleWidget(id,on){
   let ids = getTodayLayout();
@@ -6251,7 +6320,7 @@ function v32MoveWidget(id,dir){
   const j = Math.max(0, Math.min(ids.length-1, i+dir)); if(j===i) return;
   [ids[i],ids[j]] = [ids[j],ids[i]]; setTodayLayout(ids); renderTodayLayoutEditor(); renderToday();
 }
-function saveTodayLayoutAndClose(){ closeModal('layoutModal'); renderToday(); toast('Today layout saved'); }
+function saveTodayLayoutAndClose(){ closeModal('layoutModal'); renderToday(); toast('Today layout set'); }
 function v32Pct(logged, planned){ return planned ? Math.min(100, Math.round((logged/planned)*100)) : (logged ? 100 : 0); }
 function v32ExerciseCount(day){ return (day.sections||[]).reduce((n,s)=>n+((s.items||[]).length),0); }
 function v32MakeWidget(kicker, value, sub, extra){
@@ -6376,7 +6445,7 @@ function v32RenderWorkout(v, day, saved, dayName, tk){
   }
 }
 function v32NoWorkoutNotice(v){
-  const n = el('div','v32-hidden-workout','Workout logger is hidden in your Today layout.<br><button class="v32-ghost" onclick="openLayoutEditor()">Customize layout</button>');
+  const n = el('div','v32-hidden-workout',`Workout logger is hidden by an old layout setting.<br><button class="v32-ghost" onclick="setTodayPreset('athlete')">Reset to Standard</button>`);
   v.appendChild(n);
 }
 function renderToday(){
@@ -6388,7 +6457,7 @@ function renderToday(){
   const hero=el('div','hero today-hero');
   const tagHtml = day.tag ? `<span class="day-tag ${esc(day.tag)}">${esc(TAG_LABEL[day.tag]||day.tag)}</span>` : '';
   if(!hasRealProgram() && !planActive()){
-    hero.innerHTML=`<div class="v32-hero-top"><div><div class="eyebrow">${esc(dayName)} - ${esc(dateStr)}</div><h1>Start simple.</h1><div class="sub">Build a plan, import Excel, or free lift. Today will stay clean and only show what you choose.</div></div><div class="v32-hero-actions"><button class="v32-ghost" onclick="openLayoutEditor()">Layout</button><span class="status-pill">Setup</span></div></div>`;
+    hero.innerHTML=`<div class="v32-hero-top"><div><div class="eyebrow">${esc(dayName)} - ${esc(dateStr)}</div><h1>Start simple.</h1><div class="sub">Build a plan, import Excel, or free lift. Today will stay clean and only show what you choose.</div></div><div class="v32-hero-actions"><span class="status-pill">Setup</span></div></div>`;
     v.appendChild(hero);
     const node=el('div','v32-stack');
     node.appendChild(v32QuickActions(tk));
@@ -6396,7 +6465,7 @@ function renderToday(){
     start.innerHTML=`<div class="v32-kicker">Recommended Start</div><div class="v32-quick"><button class="v32-chip" onclick="switchView('build')"><b>Build</b><small>create plan</small></button><button class="v32-chip" onclick="switchView('build'); setTimeout(()=>setBuildMode('ai'),0)"><b>AI Builder</b><small>generate plan</small></button><button class="v32-chip" onclick="switchView('free')"><b>Free Lift</b><small>log now</small></button><button class="v32-chip" onclick="openLibrary('today')"><b>Library</b><small>pick moves</small></button></div>`;
     node.appendChild(start); v.appendChild(node); return;
   }
-  hero.innerHTML=`<div class="v32-hero-top"><div><div class="eyebrow">${esc(dayName)} - ${esc(dateStr)}</div><h1>${esc(day.title)}</h1><div class="sub">${day.type==='lift'?'Log clean sets. The app handles targets, trends, substitutions, and progress.':day.type==='plyo'?'Explosive contacts only. Stop before reps get slow.':day.type==='game'?'Compete, then recover.':day.type==='practice'?'Sport work today. Keep extra work low-cost.':'Recovery is part of the plan.'}</div>${tagHtml}</div><div class="v32-hero-actions"><button class="v32-ghost" onclick="openLayoutEditor()">Layout</button><button class="v32-ghost" onclick="openCoach()">Coach</button><span class="status-pill ${todayStatusClass(day.type)}">${todayStatusText(day.type)}</span></div></div>`;
+  hero.innerHTML=`<div class="v32-hero-top"><div><div class="eyebrow">${esc(dayName)} - ${esc(dateStr)}</div><h1>${esc(day.title)}</h1><div class="sub">${day.type==='lift'?'Log clean sets. The app handles targets, trends, substitutions, and progress.':day.type==='plyo'?'Explosive contacts only. Stop before reps get slow.':day.type==='game'?'Compete, then recover.':day.type==='practice'?'Sport work today. Keep extra work low-cost.':'Recovery is part of the plan.'}</div>${tagHtml}</div><div class="v32-hero-actions"><button class="v32-ghost" onclick="openCoach()">Coach</button><span class="status-pill ${todayStatusClass(day.type)}">${todayStatusText(day.type)}</span></div></div>`;
   v.appendChild(hero);
   const plan = getDatedPlan(activeProfile.id); if(day.source==='plan') v.appendChild(el('div','plan-banner',`<span>On your game plan${plan&&plan.name?`: <b>${esc(plan.name)}</b>`:''}</span>`));
   const stack = el('div','v32-stack'); v.appendChild(stack);
@@ -6505,8 +6574,16 @@ if($('#libSearch')) $('#libSearch').addEventListener('input', e => {
 function coachSystemPrompt(){
   let ctx=''; try{ ctx=buildTrainingSummary(); }catch(e){}
   const planNote = planActive() ? 'The athlete is currently following a dated game-aware season plan.' : '';
-  const appHelp = `APP HELP MAP:\n- Today: clean daily dashboard, workout logger, next move, recommendations, and custom layout button.\n- Today Layout: header layout button or More -> Today Layout. Presets are Minimal, Athlete, and Full. Users can toggle/reorder widgets.\n- Calendar: tap past dates to backfill or edit workouts.\n- Progress: strength charts, jump/test charts, and trend analysis for stalls or regressions.\n- Build: create/edit programs in app, AI-build programs, import Excel, and export plans to the shareable Program sheet format.\n- Tests: vertical, broad jump, strength maxes, readiness, sleep, and custom metrics.\n- More: Free Lift, 1RM calculator, Exercise Library, Theme, export logs, sync/account, history, and full program view.\n- Exercise Library: browse body part -> movement pattern -> exercise. Exercises can be added to Today, Free Lift, Builder, or used as swaps.\n- Exercise Swap: tap swap on an exercise, choose a substitute, then choose just today or whole program.\n- Export: More -> Export My Logs for log/test Excel; Build -> Export Program for shareable program Excel.`;
-  return `You are the athlete's in-app coach and app guide. Answer both training questions and questions about how to use this specific app. If the user asks where something is, give exact navigation steps from the app map. Do not invent features that are not listed. Be concise, practical, and direct. For injury, pregnancy, medical, or pain issues, advise professional medical guidance. ${planNote}\n\n${appHelp}\n\nTRAINING CONTEXT:\n${ctx}`;
+  return `You are the athlete's personal strength & conditioning coach inside Dylan's Training App. You are TRAINING-ONLY.
+
+Allowed topics: strength training, jump training, sport prep, recovery, readiness, exercise substitutions, form cues, programming logic, nutrition basics, deloads, tapering, and interpreting logged training data.
+
+Disallowed topics: app navigation, menus, buttons, layout customization, export/import instructions, account/sync, theme settings, or app support. If asked about those, briefly say you are training-only and ask for a training question instead.
+
+Be concise, practical, and direct. This is general fitness guidance, not medical advice; suggest a qualified professional for injury, pregnancy, medical, pain, or concerning symptoms. ${planNote}
+
+TRAINING CONTEXT:
+${ctx}`;
 }
 
 

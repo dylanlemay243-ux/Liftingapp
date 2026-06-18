@@ -1,5 +1,5 @@
-// Vert OS offline service worker
-const CACHE = 'dwa-v32-ultra-premium';
+// Dylan's Training App offline service worker
+const CACHE = 'dta-v33-training-cleanup';
 const ASSETS = [
   './',
   './index.html',

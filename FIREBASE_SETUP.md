@@ -1,4 +1,4 @@
-# Cloud Sync Setup (free) — Dylan's Workout App
+# Cloud Sync Setup (free) — Dylan's Training App
 
 Accounts + cloud sync run on Firebase's free Spark plan. This covers personal/family
 use many times over. ~5 minutes, no coding.

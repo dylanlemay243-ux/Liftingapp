@@ -1,6 +1,6 @@
 {
-  "name": "Vert OS",
-  "short_name": "Vert OS",
+  "name": "Dylan's Training App",
+  "short_name": "Dylan Train",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#07080B",
